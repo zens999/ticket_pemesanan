@@ -46,6 +46,35 @@ class TransportasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function edit($id)
+    {
+        $category = Category::orderBy('name')->get();
+        $transportasi = Transportasi::find($id);
+        return view('server.transportasi.edit', compact('category', 'transportasi'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'kode' => 'required',
+            'jumlah' => 'required|integer',
+            'category_id' => 'required'
+        ]);
+
+        $transportasi = Transportasi::findOrFail($id);
+        $transportasi->update($request->all());
+
+        return redirect()->route('transportasi.index')
+                         ->with('success', 'Transportasi berhasil diupdate.');
+    }
 
 
     /**
