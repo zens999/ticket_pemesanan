@@ -13,7 +13,25 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+    public function edit($id)
+    {
+        $category = Category::findOrFail($id);
+        return view('server.category.edit', compact('category'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category = Category::findOrFail($id);
+        $category->name = $request->name;
+        $category->slug = Str::slug($request->name); // Update slug juga
+        $category->save();
+
+        return redirect()->route('category.index')->with('success', 'Kategori berhasil diperbarui.');
+    }
 
     /**
      * Remove the specified resource from storage.

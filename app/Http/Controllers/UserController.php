@@ -14,7 +14,32 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('server.user.edit', compact('user'));
+    }
+    
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'name' => 'required|string',
+            'username' => 'required|string|unique:users,username,'.$id,
+            'password' => 'nullable|string|min:8|confirmed',
+            'level' => 'required'
+        ]);
+    
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->username = $request->username;
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+        $user->level = $request->level;
+        $user->save();
+    
+        return redirect()->route('user.index')->with('success', 'Success Update User!');
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -13,7 +13,36 @@ class RuteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function edit($id)
+    {
+        $rute = Rute::find($id);
+        $transportasi = Transportasi::orderBy('kode')->orderBy('name')->get();
+        return view('server.rute.edit', compact('rute', 'transportasi'));
+    }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'tujuan' => 'required|string|max:255',
+            'start' => 'required|string|max:255',
+            'end' => 'required|string|max:255',
+            'harga' => 'required|numeric',
+            'jam' => 'required',
+            'transportasi_id' => 'required|exists:transportasi,id',
+        ]);
+
+        $rute = Rute::findOrFail($id);
+        $rute->update($request->all());
+
+        return redirect()->route('rute.index')->with('success', 'Rute berhasil diupdate.');
+    }
 
 
 
