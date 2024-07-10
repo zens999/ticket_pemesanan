@@ -5,7 +5,7 @@
     a:hover {
       text-decoration: none;
     }
-    
+
     .kursi {
       box-sizing: border-box;
       border: 2px solid #858796;

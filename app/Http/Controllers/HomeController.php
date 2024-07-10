@@ -25,13 +25,5 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        
-        $rute = Rute::count();
-        $pendapatan = Pemesanan::where('status', 'Sudah Bayar')->sum('total');
-        $transportasi = Transportasi::count();
-        $user = User::count();
-        return view('server.home', compact('rute', 'pendapatan', 'transportasi', 'user'));
-    }
+    
 }

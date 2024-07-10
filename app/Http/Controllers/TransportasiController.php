@@ -13,23 +13,14 @@ class TransportasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $category = Category::orderBy('name')->get();
-        $transportasi = Transportasi::with('category')->orderBy('kode')->orderBy('name')->get();
-        return view('server.transportasi.index', compact('category', 'transportasi'));
-    }
+
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        $category = Category::all();
-        return view('server.transportasi.create', compact('category'));
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -37,33 +28,9 @@ class TransportasiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-            'kode' => 'required',
-            'jumlah' => 'required',
-            'category_id' => 'required'
-        ]);
 
-        Transportasi::updateOrCreate(
-            [
-                'id' => $request->id
-            ],
-            [
-                'name' => $request->name,
-                'kode' => strtoupper($request->kode),
-                'jumlah' => $request->jumlah,
-                'category_id' => $request->category_id,
-            ]
-        );
 
-        if ($request->id) {
-            return redirect()->route('transportasi.index')->with('success', 'Success Update Transportasi!');
-        } else {
-            return redirect()->route('transportasi.index')->with('success', 'Success Add Transportasi!');
-        }
-    }
+
 
     /**
      * Display the specified resource.
@@ -71,10 +38,7 @@ class TransportasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -82,12 +46,7 @@ class TransportasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $category = Category::orderBy('name')->get();
-        $transportasi = Transportasi::find($id);
-        return view('server.transportasi.edit', compact('category', 'transportasi'));
-    }
+
 
     /**
      * Update the specified resource in storage.
@@ -96,21 +55,7 @@ class TransportasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required',
-            'kode' => 'required',
-            'jumlah' => 'required|integer',
-            'category_id' => 'required'
-        ]);
-
-        $transportasi = Transportasi::findOrFail($id);
-        $transportasi->update($request->all());
-
-        return redirect()->route('transportasi.index')
-                         ->with('success', 'Transportasi berhasil diupdate.');
-    }
+   
 
     /**
      * Remove the specified resource from storage.

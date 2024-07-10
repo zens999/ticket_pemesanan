@@ -10,11 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LaporanController extends Controller
 {
-    public function index()
-    {
-        $pemesanan = Pemesanan::with('rute', 'penumpang')->orderBy('created_at', 'desc')->get();
-        return view('server.laporan.index', compact('pemesanan'));
-    }
+
 
     public function petugas()
     {
@@ -26,18 +22,7 @@ class LaporanController extends Controller
         return redirect()->route('transaksi.show', $request->kode);
     }
 
-    public function show($id)
-    {
-        $data = Pemesanan::with('rute.transportasi.category', 'penumpang')->where('kode', $id)->first();
-        if ($data) {
-            // Generate barcode image data URI
-            $barcode = BarcodeHelper::generateCode39Barcode($data->kode);
-
-            return view('server.laporan.show', compact('data', 'barcode'));
-        } else {
-            return redirect()->back()->with('error', 'Kode Transaksi Tidak Ditemukan!');
-        }
-    }
+    
 
     public function pembayaran($id)
     {
