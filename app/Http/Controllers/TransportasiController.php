@@ -13,7 +13,12 @@ class TransportasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
+    public function index()
+    {
+        $category = Category::orderBy('name')->get();
+        $transportasi = Transportasi::with('category')->orderBy('kode')->orderBy('name')->get();
+        return view('server.transportasi.index', compact('category', 'transportasi'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -84,7 +89,7 @@ class TransportasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
+
 
     /**
      * Remove the specified resource from storage.

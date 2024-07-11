@@ -13,7 +13,12 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function index()
+    {
+        $category = Category::orderBy('name')->get();
+        return view('server.category.index', compact('category'));
+    }
+     public function edit($id)
     {
         $category = Category::findOrFail($id);
         return view('server.category.edit', compact('category'));

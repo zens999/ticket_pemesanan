@@ -19,7 +19,11 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         return view('server.user.edit', compact('user'));
     }
-    
+    public function index()
+    {
+        $user = User::orderBy('level')->orderBy('name')->get();
+        return view('server.user.index', compact('user'));
+    }
     public function update(Request $request, $id)
     {
         $this->validate($request, [
@@ -28,7 +32,7 @@ class UserController extends Controller
             'password' => 'nullable|string|min:8|confirmed',
             'level' => 'required'
         ]);
-    
+
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->username = $request->username;
@@ -37,7 +41,7 @@ class UserController extends Controller
         }
         $user->level = $request->level;
         $user->save();
-    
+
         return redirect()->route('user.index')->with('success', 'Success Update User!');
     }
     /**

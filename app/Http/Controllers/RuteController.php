@@ -13,6 +13,14 @@ class RuteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function index()
+    {
+        $transportasi = Transportasi::orderBy('kode')->orderBy('name')->get();
+        $rute = Rute::with('transportasi.category')->orderBy('created_at', 'desc')->get();
+        return view('server.rute.index', compact('rute', 'transportasi'));
+    }
+
     public function edit($id)
     {
         $rute = Rute::find($id);
@@ -77,7 +85,7 @@ class RuteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
+
 
     /**
      * Remove the specified resource from storage.
