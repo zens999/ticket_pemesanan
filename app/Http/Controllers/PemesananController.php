@@ -18,7 +18,27 @@ class PemesananController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
+    public function index()
+    {
+        $ruteAwal = Rute::orderBy('start')->get()->groupBy('start');
+        if (count($ruteAwal) > 0) {
+            foreach ($ruteAwal as $key => $value) {
+                $data['start'][] = $key;
+            }
+        } else {
+            $data['start'] = [];
+        }
+        $ruteAkhir = Rute::orderBy('end')->get()->groupBy('end');
+        if (count($ruteAkhir) > 0) {
+            foreach ($ruteAkhir as $key => $value) {
+                $data['end'][] = $key;
+            }
+        } else {
+            $data['end'] = [];
+        }
+        $category = Category::orderBy('name')->get();
+        return view('client.index', compact('data', 'category'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -40,6 +60,6 @@ class PemesananController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-  
+
 
 }

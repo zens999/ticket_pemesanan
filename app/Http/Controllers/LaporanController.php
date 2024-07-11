@@ -10,7 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class LaporanController extends Controller
 {
-
+    public function index()
+    {
+        $pemesanan = Pemesanan::with('rute', 'penumpang')->orderBy('created_at', 'desc')->get();
+        return view('server.laporan.index', compact('pemesanan'));
+    }
 
     public function petugas()
     {
@@ -22,7 +26,7 @@ class LaporanController extends Controller
         return redirect()->route('transaksi.show', $request->kode);
     }
 
-    
+
 
     public function pembayaran($id)
     {
